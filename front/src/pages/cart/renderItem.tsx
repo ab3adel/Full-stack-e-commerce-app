@@ -21,7 +21,8 @@ const decreas=()=>{
     dispatch(homeSlicer.actions.subOne(_id))
 }
     return (
-        <Grid item container xs={12}>
+        <Grid item container xs={12}
+        sx={{position:'relative'}}>
 
             <Grid item container xs={12}
             padding={2}>
