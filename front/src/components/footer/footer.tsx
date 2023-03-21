@@ -28,12 +28,12 @@ const {t}=useTranslation()
                         <Grid item xs={12} textAlign="center">
 
                             <Link to={"/"} >
-                            Login
+                            {t("login")}
                             </Link>
                         </Grid>
                         <Grid item xs={12} textAlign="center">
 
-                            <Link to={'/'} >Home</Link>
+                            <Link to={'/'} >{t("home")}</Link>
                         </Grid>
                     </Grid>
                    

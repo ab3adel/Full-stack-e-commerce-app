@@ -15,6 +15,7 @@ import {Login,ShoppingBag,Person,Home} from '@mui/icons-material'
 import B3d from '../../assets/images/B3d.png'
 import './sidebar.scss'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getAuth } from '../../services/getAuth';
 interface iProps {openSidebar:boolean,setOpenSidebar:Function}
 export const Sidebar=({openSidebar,setOpenSidebar}:iProps)=>{
     const {t}=useTranslation()
@@ -25,7 +26,10 @@ export const Sidebar=({openSidebar,setOpenSidebar}:iProps)=>{
 
       setOpenSidebar(false);
     };
-
+const handleLogout =()=>{
+  sessionStorage.removeItem('auth')
+  navigate('/auth')
+}
     return (
         <Drawer
         anchor={'left'}
@@ -51,19 +55,22 @@ export const Sidebar=({openSidebar,setOpenSidebar}:iProps)=>{
               <ListItemButton
               sx={{
                 display:'flex',
-                flexDirection:'column'
+                flexDirection:'column',
+                justifyContent:'center'
               }}
               >
-                <ListItemIcon>
+                <ListItemIcon sx={{justifyContent:'center'}}>
                    <Person fontSize={'large'}/>
                 </ListItemIcon>
-                <ListItemText primary={'username'} />
+                <ListItemText primary={getAuth()? getAuth().username:'unkown'} />
               </ListItemButton>
             </ListItem>
           {[
             {label:t('home'),icon:<Home color='inherit'/>,path:'/'},
             {label:t('cart'),icon:<ShoppingBag />,path:'/cart'}, 
-          {label:t('login'),icon:<Login />,path:'/auth'}].map((eleme, index) => (
+          {label: getAuth()?t('logout'):t('login')
+          ,icon:<div onClick={()=>getAuth()?handleLogout():{}}><Login /></div>
+          ,path:'/auth'}].map((eleme, index) => (
             <>
               <Divider />
             <ListItem key={index} disablePadding

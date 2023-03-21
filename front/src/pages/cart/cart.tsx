@@ -22,6 +22,7 @@ const state=useSelector((state:{products:iInitial})=>state.products)
       useEffect(()=>{
         if (page) {
         dispatch(homeSlicer.actions.setCurrentPage(page))
+
         }
       },[page])
       console.log(state)

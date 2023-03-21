@@ -1,13 +1,19 @@
 
 import Grid from '@mui/material/Grid'
 import Pagination from '@mui/material/Pagination'
-import {Outlet} from 'react-router-dom'
+import {Outlet, useNavigate} from 'react-router-dom'
 import { Header } from '../../components/header/header';
 import {Footer} from '../../components/footer/footer'
-
+import { useEffect } from 'react';
+import { getAuth } from '../../services/getAuth';
 
 const Layout =()=>{
-
+    const navigate=useNavigate()
+useEffect(()=>{
+if (!getAuth()) {
+    navigate('/auth')
+}
+},[])
 
     return (
         <Grid container paddingBottom={2}

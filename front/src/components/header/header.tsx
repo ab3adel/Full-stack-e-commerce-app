@@ -61,7 +61,8 @@ console.log(location.pathname)
 
                      <ShoppingCart className="logo" />
                     { 
-                    state.saved?.length>0?
+                    state.saved?.length>0
+                    && location.pathname !=='/cart'?
                     <div className="circle">
                         {state.saved.length}
                      </div>:null

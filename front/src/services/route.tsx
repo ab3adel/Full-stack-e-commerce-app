@@ -3,7 +3,7 @@ import Auth from '../pages/auth/auth'
 import Cart from '../pages/cart/cart'
 import Home from '../pages/home'
 import Layout from '../pages/layout'
-
+import { getAuth } from './getAuth'
 
 export const routes:RouteObject[]=
   

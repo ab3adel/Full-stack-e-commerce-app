@@ -5,11 +5,16 @@ import {useFormik} from 'formik'
 import { useTranslation } from 'react-i18next'
 import {signInValidationSchema} from './validation'
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { CancelButton, DoButton } from '../../mini-components/form/buttons/buttons'
+import { object } from 'yup'
+import { useNavigate } from 'react-router-dom'
+import notificationContext , {iAlert}from '../../services/context/notification/context'
 interface iProps {setShowSignUp:Function}
 export const Signin =({setShowSignUp}:iProps)=>{
     const {t,i18n}=useTranslation()
+    const navigate =useNavigate()
+    const {setAlert}=useContext(notificationContext)
   
 const formik=useFormik({
     initialValues:{
@@ -20,7 +25,19 @@ const formik=useFormik({
     validationSchema:signInValidationSchema(i18n.language)
 
 })
-
+const handleLogin=()=>{
+    if (Object.keys(formik.errors).length ===0) {
+        setAlert((pre:iAlert)=>({...pre,open:true,action:'success',message:i18n.language==='en'?
+    `Welcome ${formik.values.username}`:`مرحبا ${formik.values.username}`}))
+        sessionStorage.setItem('auth',JSON.stringify({username:formik.values.username}))
+        navigate('/')
+    } 
+    else {
+        return
+    }
+}
+console.log(formik.values)
+console.log(formik.errors)
     return (
         <Grid item container rowGap={2} xs={12} padding={4}
         className="signin"
@@ -76,7 +93,11 @@ const formik=useFormik({
              >
                     <DoButton
                      title={t('signin')}
-                     fun={()=>{}}
+                     fun={()=>handleLogin()}
+                     disabled={
+                        !Boolean(formik.values.username) ||
+                        !Boolean(formik.values.password)
+                     }
                      />
                  </Grid>
                  {/* <Grid item md={5} xs={6}

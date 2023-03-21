@@ -4,13 +4,17 @@ import {useFormik} from 'formik'
 import { useTranslation } from 'react-i18next'
 import {signUpValidationSchema} from './validation'
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { CancelButton, DoButton } from '../../mini-components/form/buttons/buttons'
 import {TextInput,PasswordInput} from '../../mini-components/form/input/input'
+import notificationContext ,{iAlert} from '../../services/context/notification/context'
+import { useNavigate } from 'react-router-dom'
 interface iProps {setShowSignUp:Function}
 export const SignUp =({setShowSignUp}:iProps)=>{
     const {t,i18n}=useTranslation()
     const [showPassword,setShowPassword]=useState(false)
+    const {setAlert}=useContext(notificationContext)
+    const navigate= useNavigate()
 const formik=useFormik({
     initialValues:{
         username:'',
@@ -21,6 +25,18 @@ const formik=useFormik({
     validationSchema:signUpValidationSchema
 
 })
+const handleSignup=()=>{
+    if (Object.keys(formik.errors).length ===0) {
+        setAlert((pre:iAlert)=>({...pre,open:true,action:'success',message:i18n.language==='en'?
+    `Welcome ${formik.values.username}`:`مرحبا ${formik.values.username}`}))
+        sessionStorage.setItem('auth',JSON.stringify({username:formik.values.username}))
+        navigate('/')
+    } 
+    else {
+        return
+    }
+}
+
 
     return (
         <Grid item container rowGap={2} xs={12} padding={4}
@@ -93,7 +109,12 @@ const formik=useFormik({
                       alignItems="center">
                     <DoButton
                      title={t('singup')}
-                     fun={()=>{}}
+                     fun={()=>handleSignup()}
+                     disabled={
+                        !Boolean(formik.values.username) ||
+                        !Boolean(formik.values.password)||
+                        !Boolean(formik.values.password_confirmation)
+                     }
                      />
                  </Grid>
                  {/* <Grid item md={5} xs={6}>

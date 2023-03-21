@@ -10,15 +10,15 @@ import { useTranslation } from 'react-i18next'
 import {iInitial,homeSlicer,iSavedProduct} from '../../services/store/features/homeSlicer'
 import { useDispatch } from 'react-redux'
 import {MyDialog} from '../../mini-components/dialog/dialog'
-export const RenderItem=({count,id,image,liked,price,productName,quantity,saved}:iSavedProduct)=>{
+export const RenderItem=({count,_id,filename,liked,price,product_name,quantity,saved}:iSavedProduct)=>{
 const dispatch=useDispatch()
 const {t,i18n}=useTranslation()
 const [openDialog,setOpenDialog]=useState(false)
 const increase=()=>{
-dispatch(homeSlicer.actions.addOne(id))
+dispatch(homeSlicer.actions.addOne(_id))
 }
 const decreas=()=>{
-    dispatch(homeSlicer.actions.subOne(id))
+    dispatch(homeSlicer.actions.subOne(_id))
 }
     return (
         <Grid item container xs={12}>
@@ -28,7 +28,7 @@ const decreas=()=>{
                 <Grid item container 
                 padding={2} md={4} xs={12} columnGap={2}>
                     <Grid item md={5} xs={12}>
-                        <img src={image} className="product" />
+                        <img src={filename} className="product" />
                     </Grid>
                     <Grid item md={5} xs={12}
                     display="flex" alignItems={'center'}
@@ -36,7 +36,7 @@ const decreas=()=>{
                     textAlign={"center"}
                     justifyContent="center"
                     >
-                        {productName}
+                        {product_name}
                     </Grid>
                 </Grid>
                 <Grid item container md={6} xs={12}>
@@ -44,13 +44,14 @@ const decreas=()=>{
                     <Grid item display="flex"  xs={3} 
                     flexDirection="column" 
                     padding={1}
+                    justifyContent="center"
                     >
-                        <div className="title" >
+                        <div className="title sm-font" >
                            {t('price')}
                         </div>
                         <div style={{textAlign:'center',marginTop:'7px'}}
-                        className="bold">
-                            {price}
+                        className="bold sm-font">
+                            {price} {" "} $
                         </div>
                     </Grid>
                     <Grid item xs={6}  display="flex" alignItems={'center'}
@@ -64,21 +65,23 @@ const decreas=()=>{
                     <Grid item xs={3}  display="flex" 
                         flexDirection="column" 
                         padding={1}
+                        justifyContent="center"
                     >
-                       <div className="title" >
+                       <div className="title sm-font" >
                           {t("total")}
                        </div>
                        <div  style={{textAlign:'center',marginTop:'7px'}}
-                       className="bold">
+                       className="bold sm-font">
 
-                            {price * count}
+                            {price * count} {" "}
+                            $
                        </div>
                         
                     </Grid>
                     
                 </Grid>
-                <Grid item xs={2} display="flex" alignItems={'center'}
-                sx={{position:{xs:'absolute'},top:{xs:'-5px'},left:{xs:'-2px'}}}>
+                <Grid item xs={2} display="flex" alignItems={'center'} justifyContent="center"
+                sx={{position:{xs:'absolute',md:'static'},top:{xs:'-5px',md:'auto'},left:{xs:'-2px',md:'auto'}}}>
                     <ButtonIcon onClick={()=>setOpenDialog(true)}>
                         <Delete color="error" />
                     </ButtonIcon>
@@ -97,7 +100,7 @@ const decreas=()=>{
             action="warning"
             ok={()=>{
 
-                dispatch(homeSlicer.actions.removeFromCart(id))
+                dispatch(homeSlicer.actions.removeFromCart(_id))
                 setOpenDialog(false)
             }
             }

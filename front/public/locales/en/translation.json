@@ -15,6 +15,9 @@
     "price":"Price",
     "total":"Total",
     "cartPage":"View Cart Page",
-    "home":"Home Page"
+    "home":"Home Page",
+    "contacts":"Contacts",
+    "links":"Quick links",
+    "password_confirmation":"Password Confirmation"
     
 }
